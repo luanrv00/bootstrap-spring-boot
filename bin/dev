@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+if [ -z "$(docker images -q bootstrap-spring-boot 2> /dev/null)" ];then
+  docker build -t bootstrap-spring-boot -f docker/Dockerfile.dev .
+fi
+docker compose -f docker/docker-compose.dev.yml --project-directory bootstrap-spring-boot up

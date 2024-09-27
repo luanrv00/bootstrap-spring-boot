@@ -1,0 +1,7 @@
+services:
+  app:
+    container_name: bootstrap-spring-boot-app
+    image: bootstrap-spring-boot
+    ports:
+      - 80:8080
+    command: java -jar /app/app.jar
