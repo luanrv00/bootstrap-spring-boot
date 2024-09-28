@@ -1,4 +1,4 @@
-package com.luarnv00.quickstart;
+package com.luarnv00.quickstart.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,7 +22,7 @@ public class HelloControllerTests {
 
     @Test
     void getHelloReturnsDefaultMessage() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/hello")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("hello world")));
@@ -30,7 +30,7 @@ public class HelloControllerTests {
 
     @Test
     void getHelloReturnsDynamicMessage() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/?name=asdf")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/hello?name=asdf")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("hello asdf")));
