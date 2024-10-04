@@ -1,2 +1,4 @@
 #!/usr/bin/env sh
-./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=bootstrap-spring-boot
+if [ -z "$(docker images -q bootstrap-spring-boot)" ];then
+    ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=bootstrap-spring-boot
+fi
