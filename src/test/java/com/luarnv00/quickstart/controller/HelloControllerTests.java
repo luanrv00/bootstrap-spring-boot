@@ -13,7 +13,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.luarnv00.quickstart.model.User;
 import com.luarnv00.quickstart.service.HelloService;
 
 @SpringBootTest
@@ -42,5 +44,31 @@ public class HelloControllerTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("hello asdf")));
+    }
+
+    @Test
+    void postAddReturnsStatusCreated() throws Exception {
+        String mockName = "supername";
+        User mockUser = new User();
+        mockUser.setName(mockName);
+        when(this.service.addName(mockName)).thenReturn(mockUser);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/hello/add")
+                .content(mockName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void postAddReturnsSavedName() throws Exception {
+        String mockName = "supername";
+        User mockUser = new User();
+        mockUser.setName(mockName);
+        when(this.service.addName(mockName)).thenReturn(mockUser);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/hello/add")
+                .content(mockName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(mockName));
     }
 }
