@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 docker rm -f bootstrap-spring-boot-app
 docker rmi -f bootstrap-spring-boot
+docker rm -f bootstrap-spring-boot-db
