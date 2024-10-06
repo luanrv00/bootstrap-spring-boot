@@ -1,13 +1,5 @@
 name: bootstrap-spring-boot
 services:
-  app:
-    container_name: bootstrap-spring-boot-app
-    image: bootstrap-spring-boot
-    ports:
-      - 80:8080
-    depends_on:
-      - db
-    command: java -jar /app/app.jar
   db:
     container_name: bootstrap-spring-boot-db
     image: mysql
@@ -18,3 +10,23 @@ services:
       - MYSQL_USER=myuser
     ports:
       - 3306:3306
+    networks:
+      - default
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+  app:
+    container_name: bootstrap-spring-boot-app
+    image: bootstrap-spring-boot
+    ports:
+      - 80:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+networks:
+  default:
